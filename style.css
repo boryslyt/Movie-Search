@@ -1,0 +1,50 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.main-cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    font-weight: 400;
+    font-size: 28px;
+}
+.header-search {
+    font-size: 16px;
+    padding: 0.8em;
+    outline: none;
+    border: 2px solid rgb(200, 200, 200);
+    background-color: transparent;
+    border-radius: 20px;
+}
+.searchButton {
+    background: #fff;
+    border: solid 1px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    width: 120px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.movieCard {
+    width: 250px;
+    border: 1px solid;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+.movieInfo {
+    padding: 15px;
+}
+.results {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: 90%;
+    margin: 0 auto;
+}

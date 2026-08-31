@@ -11,7 +11,7 @@ searchButton.addEventListener("click", function() {
         results.append(enterError);
     return;
     }
-    fetch(`https://www.omdbapi.com/?s=${searchmovie}&apikey=1ff65e07`)
+    fetch(`https://www.omdbapi.com/?s=${searchmovie}&apikey=APIKEY`)
         .then(function(response) {
             return response.json();
         })

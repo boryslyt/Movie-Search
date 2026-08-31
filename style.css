@@ -20,7 +20,7 @@ h1 {
     background-color: transparent;
     border-radius: 20px;
 }
-.searchButton {
+.searchButton, .favoritesButton {
     background: #fff;
     border: solid 1px;
     border-radius: 20px;

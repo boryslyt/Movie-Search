@@ -27,24 +27,57 @@ function createMovieCard(movie) {
 
         let errorMessage = document.createElement("p");
         errorMessage.textContent = "No poster available";
-        card.append(errorMessage);
+        card.insertBefore(errorMessage, info);
     };
     card.append(poster);
     }
 
+    let info = document.createElement("div");
+    info.classList.add("movieInfo");
+    card.append(info);
 
     let title = document.createElement("p");
     title.classList.add("movieTitle");
-    card.append(title);
+    info.append(title);
     title.textContent = movie.Title;
 
 
     let year = document.createElement("p");
     year.classList.add("movieYear");
-    card.append(year);
+    info.append(year);
     year.textContent = movie.Year;    
 
+    let cardButtons = document.createElement("div");
+    cardButtons.classList.add("cardButtons");
+    info.append(cardButtons);
+
+    let moreInfo = document.createElement("button");
+    moreInfo.classList.add("moreInfoButton");
+    moreInfo.textContent = "More Information";
+    cardButtons.append(moreInfo);
+
+    moreInfo.addEventListener("click", function() {
+    if (details.innerHTML !== "") {
+        details.innerHTML = "";
+        moreInfo.textContent = "More Information";
+    return;
+    }
+    fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=1ff65e07`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(moreData) {
+            createMovieDetails(moreData, details);
+            moreInfo.textContent = "Less Information";
+        });
+    });
+
+    let details = document.createElement("div");
+    details.classList.add("movieDetails");
+    info.append(details);
+
     let favorite = document.createElement("button");
+    favorite.classList.add("cardfavoriteButton");
     let isFavorite = favorites.some(function(item) {
         return item.imdbID === movie.imdbID;
     });
@@ -54,7 +87,7 @@ function createMovieCard(movie) {
     } else {
         favorite.textContent = "♡ Favorite";
     }
-    card.append(favorite);
+    cardButtons.append(favorite);
 
 
     favorite.addEventListener("click", function() {
@@ -73,7 +106,6 @@ function createMovieCard(movie) {
         if (showingFavorites === true) {
             card.remove();
         }
-
         return;
         }
 
@@ -118,3 +150,51 @@ inputSearch.addEventListener("keydown", function(event) {
         searchButton.click();
     }
 });
+
+favoritesButton.addEventListener("click", function() {
+    results.innerHTML = "";
+    showingFavorites = true;
+
+    if (favorites.length === 0) {
+        let favError = document.createElement("p");
+        favError.textContent = "No favorite movies yet";
+        results.append(favError);
+        return;
+    }
+
+    favorites.forEach(function(movie) {
+        createMovieCard(movie);
+    });
+});
+
+function createMovieDetails(moreData, details) {
+    let genre = document.createElement("p");
+    genre.classList.add("genre");
+    genre.textContent = "Genre: " + moreData.Genre;
+    details.append(genre);
+
+    let Runtime = document.createElement("p");
+    Runtime.classList.add("runtime");
+    Runtime.textContent = "Runtime: " + moreData.Runtime;
+    details.append(Runtime);
+
+    let Director = document.createElement("p");
+    Director.classList.add("director");
+    Director.textContent = "Director: " + moreData.Director;
+    details.append(Director);
+
+    let Actors = document.createElement("p");
+    Actors.classList.add("actors");
+    Actors.textContent = "Actors: " + moreData.Actors;
+    details.append(Actors);
+
+    let IMDbRating = document.createElement("p");
+    IMDbRating.classList.add("imdbrating");
+    IMDbRating.textContent = "IMDb Rating: " + moreData.imdbRating + "⭐";
+    details.append(IMDbRating);
+
+    let Plot = document.createElement("p");
+    Plot.classList.add("plot");
+    Plot.textContent = "Plot: " + moreData.Plot;
+    details.append(Plot);
+}

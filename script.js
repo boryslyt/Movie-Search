@@ -11,6 +11,7 @@ let results = document.querySelector(".results");
 
 
 function createMovieCard(movie) {
+
     let card = document.createElement("div");
     card.classList.add("movieCard");
     results.append(card);
@@ -25,10 +26,10 @@ function createMovieCard(movie) {
         poster.onerror = function() {
             poster.remove();
 
-        let errorMessage = document.createElement("p");
-        errorMessage.textContent = "No poster available";
-        card.insertBefore(errorMessage, info);
-    };
+            let errorMessage = document.createElement("p");
+            errorMessage.textContent = "No poster available";
+            card.insertBefore(errorMessage, info);
+        };
     card.append(poster);
     }
 
@@ -62,6 +63,7 @@ function createMovieCard(movie) {
         moreInfo.textContent = "More Information";
     return;
     }
+    moreInfo.textContent = "Loading...";
     fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=1ff65e07`)
         .then(function(response) {
             return response.json();
@@ -69,7 +71,13 @@ function createMovieCard(movie) {
         .then(function(moreData) {
             createMovieDetails(moreData, details);
             moreInfo.textContent = "Less Information";
-        });
+        })
+        .catch(function(error) {
+            moreInfo.textContent = "More Information";
+            let errorMessageDetails = document.createElement("p");
+            errorMessageDetails.textContent = "Something went wrong. Please try again later.";
+            details.append(errorMessageDetails);
+    });
     });
 
     let details = document.createElement("div");
@@ -125,6 +133,13 @@ searchButton.addEventListener("click", function() {
         results.append(enterError);
     return;
     }
+
+    results.innerHTML = "";
+
+    let loading = document.createElement("p");
+    loading.textContent = "Loading...";
+    results.append(loading);
+
     fetch(`https://www.omdbapi.com/?s=${searchmovie}&apikey=1ff65e07`)
         .then(function(response) {
             return response.json();
@@ -143,6 +158,14 @@ searchButton.addEventListener("click", function() {
             createMovieCard(movie);
             });
         })
+
+        .catch(function(error) {
+            results.innerHTML = "";
+            let errorMessage = document.createElement("p");
+            errorMessage.textContent = "Something went wrong. Please try again later.";
+            results.append(errorMessage);
+
+    });
     });
 
 inputSearch.addEventListener("keydown", function(event) {
@@ -173,28 +196,28 @@ function createMovieDetails(moreData, details) {
     genre.textContent = "Genre: " + moreData.Genre;
     details.append(genre);
 
-    let Runtime = document.createElement("p");
-    Runtime.classList.add("runtime");
-    Runtime.textContent = "Runtime: " + moreData.Runtime;
-    details.append(Runtime);
+    let runtime = document.createElement("p");
+    runtime.classList.add("runtime");
+    runtime.textContent = "Runtime: " + moreData.Runtime;
+    details.append(runtime);
 
-    let Director = document.createElement("p");
-    Director.classList.add("director");
-    Director.textContent = "Director: " + moreData.Director;
-    details.append(Director);
+    let director = document.createElement("p");
+    director.classList.add("director");
+    director.textContent = "Director: " + moreData.Director;
+    details.append(director);
 
-    let Actors = document.createElement("p");
-    Actors.classList.add("actors");
-    Actors.textContent = "Actors: " + moreData.Actors;
-    details.append(Actors);
+    let actors = document.createElement("p");
+    actors.classList.add("actors");
+    actors.textContent = "Actors: " + moreData.Actors;
+    details.append(actors);
 
-    let IMDbRating = document.createElement("p");
-    IMDbRating.classList.add("imdbrating");
-    IMDbRating.textContent = "IMDb Rating: " + moreData.imdbRating + "⭐";
-    details.append(IMDbRating);
+    let imdbRating = document.createElement("p");
+    imdbRating.classList.add("imdbrating");
+    imdbRating.textContent = "IMDb Rating: " + moreData.imdbRating + "⭐";
+    details.append(imdbRating);
 
-    let Plot = document.createElement("p");
-    Plot.classList.add("plot");
-    Plot.textContent = "Plot: " + moreData.Plot;
-    details.append(Plot);
+    let plot = document.createElement("p");
+    plot.classList.add("plot");
+    plot.textContent = "Plot: " + moreData.Plot;
+    details.append(plot);
 }

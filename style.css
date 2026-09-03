@@ -59,6 +59,7 @@ h1 {
     max-width: 1100px;
     gap: 24px;
     align-items: start;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .movieCard img {
     object-fit: cover;
@@ -116,7 +117,7 @@ h1 {
     font-size: 14px;
     line-height: 1.5;
     font-weight: 600;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .movieDetails {
     display: flex;
@@ -127,4 +128,21 @@ h1 {
 .results > p {
     grid-column: 1 / -1;
     text-align: center;
+}
+
+@media (max-width: 490px) {
+    .header-search {
+        width: 100%;
+        max-width: 320px;
+    }
+    .input-search {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+    .searchButton,
+    .favoritesButton {
+        width: auto;
+    }
 }
